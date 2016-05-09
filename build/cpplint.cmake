@@ -1,4 +1,12 @@
-
+#
+# Copyright (c) 2016 Thomas Richard
+#
+# Following MIT license (see copying.txt)
+#
+# The software is provided "as is", without warranty of any kind, express or
+# implied, including but not limited to the warranties of merchantability,
+# fitness for a particular purpose and noninfringement.
+#
 find_package(PythonInterp QUIET)
 
 set (CPPLINT_SCRIPT)
@@ -37,7 +45,7 @@ function(check_cpplint TARGET_NAME CFG_FILE)
         set(cmd ${cmd} "--output=vs7")
     endif()
     
-    # todo(tsr): grep cfg for extensions
+    # TODO(thomas): grep cfg for extensions
     set(cmd "--extensions=hpp,h,cpp")
 
     add_custom_target(${TARGET_NAME}_cpplint

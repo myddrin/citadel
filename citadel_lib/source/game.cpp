@@ -1,4 +1,12 @@
-
+/**
+ * Copyright (c) 2016 Thomas Richard
+ *
+ * Following MIT license (see copying.txt)
+ *
+ * The software is provided "as is", without warranty of any kind, express or
+ * implied, including but not limited to the warranties of merchantability,
+ * fitness for a particular purpose and noninfringement.
+ */
 #include "citadel/game.hpp"
 
 #include <vector>
@@ -180,7 +188,7 @@ unsigned int Citadel::Game::computePoints(const Citadel::Player &p)
     }
 
     hasAllColours = true;  // assumes it has all types
-    // todo remove -1 to check wonders when introduced
+    // TODO(thomas) remove -1 to check wonders when introduced
     for (int i = 0; i < Citadel::Building::BUILD_N - 1; i++)
     {
         if (typePresent[i] == 0)

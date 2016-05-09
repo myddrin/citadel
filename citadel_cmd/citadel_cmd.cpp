@@ -1,4 +1,12 @@
-
+/**
+ * Copyright (c) 2016 Thomas Richard
+ *
+ * Following MIT license (see copying.txt)
+ *
+ * The software is provided "as is", without warranty of any kind, express or
+ * implied, including but not limited to the warranties of merchantability,
+ * fitness for a particular purpose and noninfringement.
+ */
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
@@ -893,9 +901,9 @@ int Game::power_destroy(Citadel::Player *current)
                 while (it != players[c]->built().end())
                 {
                     muster = (*it)->value() - 1;
-                    /* todo handle the special building that
+                    /* TODO(thomas) handle the special building that
                     * cannot be destroyed */
-                    /* todo handle the power that makes the normal
+                    /* TODO(thomas) handle the power that makes the normal
                     * value for destruction */
                     std::cout << choice << " - " << (*it)->name()
                         << " to destroy: " << muster;
