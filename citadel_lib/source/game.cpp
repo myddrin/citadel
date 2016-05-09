@@ -1,6 +1,9 @@
 
 #include "citadel/game.hpp"
 
+#include <vector>
+#include <list>
+
 #include "citadel/character.hpp"
 
 // official minimum is 4 but 2-3 is possible
@@ -16,13 +19,13 @@
 
 Citadel::Game::Game()
 {
-	goal_building = GOAL_BUILDING;
-	win_first = WIN_FIRST;
-	win_number = WIN_NUMBER;
-	win_colours = WIN_COLOURS;
+    goal_building = GOAL_BUILDING;
+    win_first = WIN_FIRST;
+    win_number = WIN_NUMBER;
+    win_colours = WIN_COLOURS;
 
-	min_players = MIN_PLAYERS;
-	max_players = MAX_PLAYERS;
+    min_players = MIN_PLAYERS;
+    max_players = MAX_PLAYERS;
 
     crowned = 0;
     choose_hidden_before = 0;
@@ -32,13 +35,13 @@ Citadel::Game::Game()
 Citadel::Game::~Game()
 {
     std::vector<Player *>::iterator p_it = players.begin();
-    
+
     while (p_it != players.end())
-	{
+    {
         delete *p_it;
         p_it++;
-	}
-	players.clear();
+    }
+    players.clear();
 
     std::vector<Character *>::iterator c_it = characters.begin();
     while (c_it != characters.end())
@@ -54,7 +57,7 @@ void Citadel::Game::initGame()
     crowned = players[rand() % players.size()];
 
     choose_hidden_before = 1;
-        
+
     switch (players.size())
     {
     case 2:
@@ -77,22 +80,21 @@ void Citadel::Game::initGame()
         choose_visible_before = 0;
         break;
     }
-    
 }
 
 bool Citadel::Game::isFinished() const
 {
     std::vector<Player *>::const_iterator it = players.begin();
 
-	while (it != players.end())
-	{
-		if ((*it)->built().size() >= goal_building)
-		{
-			return true;
-		}
-		it++;
-	}
-	return false;
+    while (it != players.end())
+    {
+        if ((*it)->built().size() >= goal_building)
+        {
+            return true;
+        }
+        it++;
+    }
+    return false;
 }
 
 int Citadel::Game::giveCharacters() const
@@ -108,7 +110,7 @@ int Citadel::Game::giveCharacters() const
     }
 
     // remove cards, hidden
-    for (c = 0; c < (int)choose_hidden_before; c++)
+    for (c = 0; c < static_cast<int>(choose_hidden_before); c++)
     {
         pos = rand() % characters_copy.size();
         characters_copy.erase(characters_copy.begin() + pos);
@@ -116,7 +118,7 @@ int Citadel::Game::giveCharacters() const
 
     // remove cards, visible, cannot be the King
     // c has to be int to be allowed to be negative if king is found
-    for (c = 0; c < (int)choose_visible_before; c++)
+    for (c = 0; c < static_cast<int>(choose_visible_before); c++)
     {
         pos = rand() % characters_copy.size();
         character = characters_copy[pos];
@@ -136,7 +138,7 @@ int Citadel::Game::giveCharacters() const
 
     // give random cards to players starting with the crowned player
     int crown_index = getIndex(crowned);
-    for (c = 0; c < (int)players.size(); c++)
+    for (c = 0; c < static_cast<int>(players.size()); c++)
     {
         int p = (crown_index + c) % players.size();
         pos = rand() % characters_copy.size();
@@ -154,44 +156,44 @@ int Citadel::Game::giveCharacters() const
 
 unsigned int Citadel::Game::computePoints(const Citadel::Player &p)
 {
-	unsigned typePresent[Citadel::Building::BUILD_N];
-	unsigned int points = 0;
-	bool hasAllColours = true;
+    unsigned typePresent[Citadel::Building::BUILD_N];
+    unsigned int points = 0;
+    bool hasAllColours = true;
 
-	std::list<Citadel::Building*>::const_iterator it = p.built().begin();
+    std::list<Citadel::Building*>::const_iterator it = p.built().begin();
 
-	while (it != p.built().end())
-	{
-		points += (*it)->value();
-		typePresent[(int)(*it)->type()]++;
+    while (it != p.built().end())
+    {
+        points += (*it)->value();
+        typePresent[static_cast<int>((*it)->type())]++;
 
-		it++;
-	}
+        it++;
+    }
 
-	if (p.isFirst())
-	{
-		points += win_first;
-	}
-	else if (p.built().size() >= goal_building)
-	{
-		points += win_number;
-	}
+    if (p.isFirst())
+    {
+        points += win_first;
+    }
+    else if (p.built().size() >= goal_building)
+    {
+        points += win_number;
+    }
 
-	hasAllColours = true; // assumes it has all types
-	// todo remove -1 to check wonders when introduced
-	for (int i = 0; i < Citadel::Building::BUILD_N - 1; i++)
-	{
-		if (typePresent[i] == 0)
-		{
-			hasAllColours = false;
-		}
-	}
-	if (hasAllColours)
-	{
-		points += win_colours;
-	}
+    hasAllColours = true;  // assumes it has all types
+    // todo remove -1 to check wonders when introduced
+    for (int i = 0; i < Citadel::Building::BUILD_N - 1; i++)
+    {
+        if (typePresent[i] == 0)
+        {
+            hasAllColours = false;
+        }
+    }
+    if (hasAllColours)
+    {
+        points += win_colours;
+    }
 
-	return points;
+    return points;
 }
 
 Citadel::Player* Citadel::Game::getPlayer(int level)

@@ -2,107 +2,107 @@
 #ifndef CITADEL_GAME
 #define CITADEL_GAME
 
+#include <vector>
+
 #include "citadel/deck.hpp"
 #include "citadel/building.hpp"
 #include "citadel/player.hpp"
 
-#include <vector>
-
 namespace Citadel {
 
-	struct Character;
+struct Character;
 
-	struct Game
-	{
-		std::vector<Player *> players;
-        std::vector<Character *> characters;
+struct Game
+{
+    std::vector<Player *> players;
+    std::vector<Character *> characters;
 
-		Deck deck;
+    Deck deck;
 
-		/** @brief number of buildings to win */
-		unsigned int goal_building;
+    /** @brief number of buildings to win */
+    unsigned int goal_building;
 
-		/** @brief number of points if first to have goal_building built */
-		unsigned int win_first;
-		/**
-		 * @brief number of points if not first but goal_building have been
-		 * built
-		 */
-		unsigned int win_number;
-		/**
-		 * @brief number of points if player has all different building types
-		 */
-		unsigned int win_colours;
+    /** @brief number of points if first to have goal_building built */
+    unsigned int win_first;
+    /**
+        * @brief number of points if not first but goal_building have been
+        * built
+        */
+    unsigned int win_number;
+    /**
+        * @brief number of points if player has all different building types
+        */
+    unsigned int win_colours;
 
-		/** @brief minimum number of players */
-		unsigned int min_players;
-		/** @brief maximum number of players */
-		unsigned int max_players;
+    /** @brief minimum number of players */
+    unsigned int min_players;
+    /** @brief maximum number of players */
+    unsigned int max_players;
 
-        /**
-         * @brief crowned player
-         *
-         * the player with the crown gets the 1st character
-         */
-        Player *crowned;
-        
-        /**
-         * @brief number of hidden characters before the crown player
-         * chooses a character
-         */
-        unsigned int choose_hidden_before;
-        /**
-         * @brief number of visible characters after every players chose a
-         * character
-         *
-         * @note cannot be the King
-         */
-        unsigned int choose_visible_before;
+    /**
+        * @brief crowned player
+        *
+        * the player with the crown gets the 1st character
+        */
+    Player *crowned;
 
-	// methods
-		Game();
-		virtual ~Game();
+    /**
+        * @brief number of hidden characters before the crown player
+        * chooses a character
+        */
+    unsigned int choose_hidden_before;
+    /**
+        * @brief number of visible characters after every players chose a
+        * character
+        *
+        * @note cannot be the King
+        */
+    unsigned int choose_visible_before;
 
-        /**
-         * @brief once all players have been added set an initial Player for
-         * the crown (random) and computes the choosing cards rules.
-         */
-        void initGame();
+// methods
+    Game();
+    virtual ~Game();
 
-		bool isFinished() const;
-		
-        /**
-         * @brief start of the turn - give a character to each player
-         *
-         * Also update's the player's powers
-         *
-         * @return number of given characters (0 on failure)
-         */
-        int giveCharacters() const;
+    /**
+        * @brief once all players have been added set an initial Player for
+        * the crown (random) and computes the choosing cards rules.
+        */
+    void initGame();
 
-		unsigned int computePoints(const Player &p);
+    bool isFinished() const;
 
-        /**
-         * @brief get the Player that should play (using it's Character level)
-         *
-         * @return Player to play
-         * @return NULL if character's level is dead, visible or not available
-         */
-        Player *getPlayer(int level);
+    /**
+        * @brief start of the turn - give a character to each player
+        *
+        * Also update's the player's powers
+        *
+        * @return number of given characters (0 on failure)
+        */
+    int giveCharacters() const;
 
-        /** @brief get index of player (for crown) */
-        unsigned int getIndex(const Player *player) const;
-        
-        void resetCharacters();
-	};
+    unsigned int computePoints(const Player &p);
 
-	class GameFactory
-	{
-	public:
-		static void populateDeck(Deck &d);
+    /**
+        * @brief get the Player that should play (using it's Character level)
+        *
+        * @return Player to play
+        * @return NULL if character's level is dead, visible or not available
+        */
+    Player *getPlayer(int level);
 
-		static void populateCharacters(std::vector<Character *> &c);
-	};
-}
+    /** @brief get index of player (for crown) */
+    unsigned int getIndex(const Player *player) const;
 
-#endif // CITADEL_GAME
+    void resetCharacters();
+};
+
+class GameFactory
+{
+ public:
+    static void populateDeck(Deck &d);
+
+    static void populateCharacters(std::vector<Character *> &c);
+};
+} /* namespace Citadel */
+
+#endif /* CITADEL_GAME */

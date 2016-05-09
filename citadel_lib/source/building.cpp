@@ -1,13 +1,13 @@
 
 #include "citadel/building.hpp"
 
+#include <string>
 
 Citadel::Building::Building(const std::string &name, unsigned int price,
-	enum Type t, const std::string &desc)
-		:_name(name), _description(desc), _price(price), _type(t), 
-		_value(price), _builtAtTurn(-1)
+    enum Type t, const std::string &desc)
+        :_name(name), _description(desc), _price(price), _type(t),
+        _value(price), _builtAtTurn(-1)
 {
-
 }
 
 //
@@ -16,40 +16,40 @@ Citadel::Building::Building(const std::string &name, unsigned int price,
 
 std::string Citadel::Building::name() const
 {
-	return _name;
+    return _name;
 }
 
 std::string Citadel::Building::description() const
 {
-	return _description;
+    return _description;
 }
 
 unsigned int Citadel::Building::price() const
 {
-	return _price;
+    return _price;
 }
 
 unsigned int Citadel::Building::value() const
 {
-	return _value;
+    return _value;
 }
 
 void Citadel::Building::setValue(unsigned int v)
 {
-	_value = v;
+    _value = v;
 }
 
 enum Citadel::Building::Type Citadel::Building::type() const
 {
-	return _type;
+    return _type;
 }
 
 int Citadel::Building::builtAtTurn() const
 {
-	return _builtAtTurn;
+    return _builtAtTurn;
 }
 
 void Citadel::Building::setBuiltAtTurn(int turn)
 {
-	_builtAtTurn = turn;
+    _builtAtTurn = turn;
 }

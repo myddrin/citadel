@@ -3,36 +3,37 @@
 #define CITADELLIB_DECK
 
 #include <list>
+#include <string>
 
 namespace Citadel {
 
-	class Building;
+class Building;
 
-	class Deck
-	{
-	protected:
-		std::list<Building*> _cards;
+class Deck
+{
+ protected:
+    std::list<Building*> _cards;
 
-	public:
-		Deck(){};
-		virtual ~Deck();
+ public:
+    Deck(){};
+    virtual ~Deck();
 
-		void shuffle();
+    void shuffle();
 
-		Building *getTop();
+    Building *getTop();
 
-		void pushBack(Building *b);
-		bool take(Building *b);
+    void pushBack(Building *b);
+    bool take(Building *b);
 
-		//
-		// list access
-		//
+    //
+    // list access
+    //
 
-		const std::list<Building*>& cards(void) const;
-		
-		const Building* search(const std::string &name) const;
-		const Building* search(const Building *b) const;
-	};
-}
+    const std::list<Building*>& cards(void) const;
 
-#endif // CITADELLIB_DECK
+    const Building* search(const std::string &name) const;
+    const Building* search(const Building *b) const;
+};
+} /* namespace Citadel */
+
+#endif /* CITADELLIB_DECK */
